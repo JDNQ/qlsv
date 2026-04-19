@@ -1,66 +1,92 @@
-// src/pages/admin/AdminDashboard.js
-import React, { useEffect, useState } from 'react';
-import axiosClient from '../../services/axiosClient';
+// src/pages/admin/Dashboard.js
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const AdminDashboard = () => {
-    const [stats, setStats] = useState({
-        totalStudents: 0,
-        totalTeachers: 0,
-        totalCourses: 0
-    });
+const Dashboard = () => {
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        // Gọi API lấy thống kê (bạn sẽ thêm sau)
-        const fetchStats = async () => {
-            try {
-                const [studentsRes, teachersRes] = await Promise.all([
-                    axiosClient.get('/admin/students/count'),
-                    axiosClient.get('/admin/teachers/count')
-                ]);
-                setStats({
-                    totalStudents: studentsRes.data,
-                    totalTeachers: teachersRes.data,
-                    // totalCourses: ...
-                });
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchStats();
-    }, []);
+    const cards = [
+        {
+            title: "Sinh viên",
+            icon: "🎓",
+            path: "/admin/students",
+            color: "#0d6efd"
+        },
+        {
+            title: "Giáo viên",
+            icon: "👩‍🏫",
+            path: "/admin/teachers",
+            color: "#198754"
+        },
+        {
+            title: "Khóa học",
+            icon: "📚",
+            path: "/admin/courses",
+            color: "#ffc107"
+        },
+        {
+            title: "Lớp học",
+            icon: "🏫",
+            path: "/admin/classes",
+            color: "#dc3545"
+        }
+    ];
 
     return (
-        <div className="p-4">
-            <h2 className="mb-4">Dashboard Quản trị viên</h2>
+        <div style={{
+            padding: "30px",
+            background: "#f5f7fa",
+            minHeight: "100vh"
+        }}>
+            {/* Title */}
+            <h2 style={{ fontWeight: "bold", marginBottom: "30px", color: "#333" }}>
+                Dashboard
+            </h2>
 
-            <div className="row g-4">
-                <div className="col-md-4">
-                    <div className="card text-white bg-primary">
-                        <div className="card-body">
-                            <h5>Tổng số Sinh viên</h5>
-                            <h3>{stats.totalStudents}</h3>
+            {/* Cards */}
+            <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "20px"
+            }}>
+                {cards.map((card, index) => (
+                    <div
+                        key={index}
+                        onClick={() => navigate(card.path)}
+                        style={{
+                            background: "#fff",
+                            borderRadius: "12px",
+                            padding: "25px",
+                            cursor: "pointer",
+                            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                            transition: "0.3s"
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.transform = "translateY(-5px)"}
+                        onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
+                    >
+                        <div style={{ fontSize: "40px", marginBottom: "10px" }}>
+                            {card.icon}
                         </div>
+
+                        <h4 style={{
+                            margin: 0,
+                            fontWeight: "bold",
+                            color: card.color
+                        }}>
+                            {card.title}
+                        </h4>
+
+                        <p style={{
+                            marginTop: "10px",
+                            color: "#666"
+                        }}>
+                            Quản lý {card.title.toLowerCase()}
+                        </p>
                     </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="card text-white bg-success">
-                        <div className="card-body">
-                            <h5>Tổng số Giáo viên</h5>
-                            <h3>{stats.totalTeachers}</h3>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="card text-white bg-warning">
-                        <div className="card-body">
-                            <h5>Tổng số Khóa học</h5>
-                            <h3>{stats.totalCourses}</h3>
-                        </div>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     );
 };
 
-export default AdminDashboard;
+export default Dashboard;

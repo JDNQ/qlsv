@@ -22,12 +22,25 @@ const AddTeacher = () => {
         setLoading(true);
 
         try {
-            // await teacherApi.create(teacher);   // Sau khi tạo teacherApi thì uncomment
+            // 👉 lưu localStorage
+            const oldData = JSON.parse(localStorage.getItem("teachers")) || [];
+
+            const newTeacher = {
+                id: Date.now(),
+                ...teacher
+            };
+
+            localStorage.setItem(
+                "teachers",
+                JSON.stringify([...oldData, newTeacher])
+            );
+
             alert("Thêm giáo viên thành công!");
             navigate('/admin/teachers');
+
         } catch (error) {
             console.error(error);
-            alert("Thêm giáo viên thất bại! Vui lòng thử lại.");
+            alert("Thêm giáo viên thất bại!");
         } finally {
             setLoading(false);
         }

@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 // ==================== LAYOUTS ====================
 import StudentLayout from '../pages/student/StudentLayout';
-import AdminLayout from '../pages/admin/AdminLayout';
+import AdminLayout from '../layout/AdminLayout';
 // import TeacherLayout from '../pages/teacher/TeacherLayout';   // uncomment khi đã tạo
 
 // ==================== PAGES ====================

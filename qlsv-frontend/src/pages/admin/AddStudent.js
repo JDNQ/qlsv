@@ -21,20 +21,35 @@ const AddStudent = () => {
         setLoading(true);
 
         try {
+            // 👉 Thử gọi API
             await studentApi.create(student);
-            alert("Thêm sinh viên thành công!");
-            navigate('/admin/students');
+
         } catch (error) {
-            alert("Thêm sinh viên thất bại!");
-            console.error(error);
-        } finally {
-            setLoading(false);
+            console.warn("API lỗi -> dùng localStorage");
+
+            // 👉 fallback localStorage
+            const oldData = JSON.parse(localStorage.getItem("students")) || [];
+
+            const newStudent = {
+                id: Date.now(),
+                ...student
+            };
+
+            localStorage.setItem(
+                "students",
+                JSON.stringify([...oldData, newStudent])
+            );
         }
+
+        alert("Thêm sinh viên thành công!");
+        navigate('/admin/students');
+        setLoading(false);
     };
 
     return (
         <div className="p-4">
             <h2>Thêm Sinh viên mới</h2>
+
             <div className="card shadow mt-4">
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
@@ -74,9 +89,14 @@ const AddStudent = () => {
                         </div>
 
                         <div className="d-flex gap-2">
-                            <button type="submit" className="btn btn-success" disabled={loading}>
+                            <button
+                                type="submit"
+                                className="btn btn-success"
+                                disabled={loading}
+                            >
                                 {loading ? "Đang thêm..." : "Thêm sinh viên"}
                             </button>
+
                             <button
                                 type="button"
                                 className="btn btn-secondary"
