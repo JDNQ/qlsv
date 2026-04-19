@@ -1,4 +1,3 @@
-// src/pages/student/StudentLayout.js
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 
@@ -6,107 +5,83 @@ const StudentLayout = () => {
     const location = useLocation();
 
     const menuItems = [
-        {
-            path: '/student/dashboard',
-            label: 'Dashboard',
-            icon: '🏠'
-        },
-        {
-            path: '/student/profile',
-            label: 'Hồ sơ cá nhân',
-            icon: '👤'
-        },
-        {
-            path: '/student/scores',
-            label: 'Bảng điểm',
-            icon: '📊'
-        },
-        {
-            path: '/student/courses',
-            label: 'Môn học của tôi',
-            icon: '📚'
-        }
+        { path: '/student/dashboard', label: 'Dashboard', icon: '📊' },
+        { path: '/student/profile', label: 'Hồ sơ cá nhân', icon: '👤' },
+        { path: '/student/courses', label: 'Khóa học của tôi', icon: '📚' },
+        { path: '/student/scores', label: 'Điểm số', icon: '📝' },
     ];
 
     return (
-        <div className="d-flex">
-            {/* Sidebar cho Sinh viên */}
-            <div className="sidebar bg-success text-white vh-100 p-3" style={{ width: '260px', position: 'fixed' }}>
-                <div className="text-center mb-4">
-                    <h4>👨‍🎓 QLSV</h4>
-                    <p className="mb-0 opacity-75">Sinh viên</p>
+        <div className="flex h-screen bg-gray-950 text-gray-100">
+            {/* Sidebar hiện đại */}
+            <div className="w-72 bg-gray-900 border-r border-gray-800 flex flex-col">
+                <div className="p-6 border-b border-gray-800">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl">
+                            QLSV
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-bold tracking-tight">QL Sinh Viên</h1>
+                            <p className="text-xs text-gray-500">Hệ thống quản lý</p>
+                        </div>
+                    </div>
                 </div>
 
-                <ul className="nav flex-column">
-                    {menuItems.map((item) => (
-                        <li key={item.path} className="nav-item mb-1">
-                            <Link
-                                to={item.path}
-                                className={`nav-link text-white d-flex align-items-center gap-2 ${
-                                    location.pathname === item.path ? 'active bg-white text-success fw-bold' : ''
-                                }`}
-                            >
-                                <span>{item.icon}</span>
-                                {item.label}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                <nav className="flex-1 px-4 py-6">
+                    <ul className="space-y-2">
+                        {menuItems.map((item) => {
+                            const isActive = location.pathname === item.path;
+                            return (
+                                <li key={item.path}>
+                                    <Link
+                                        to={item.path}
+                                        className={`flex items-center gap-4 px-5 py-3.5 rounded-2xl text-sm font-medium transition-all ${
+                                            isActive
+                                                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30'
+                                                : 'hover:bg-gray-800 text-gray-400 hover:text-white'
+                                        }`}
+                                    >
+                                        <span className="text-xl">{item.icon}</span>
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </nav>
 
-                <hr className="my-4 border-light" />
-
-                <div className="mt-auto">
-                    <Link
-                        to="/logout"
-                        className="nav-link text-white d-flex align-items-center gap-2 text-danger"
+                <div className="p-6 border-t border-gray-800">
+                    <button
+                        onClick={() => window.location.href = '/logout'}
+                        className="w-full flex items-center justify-center gap-3 bg-red-600/10 hover:bg-red-600/20 text-red-400 hover:text-red-300 py-3 rounded-2xl font-medium transition"
                     >
-                        <span>🚪</span>
-                        Đăng xuất
-                    </Link>
+                        🚪 Đăng xuất
+                    </button>
                 </div>
             </div>
 
-            {/* Nội dung chính */}
-            <div className="flex-grow-1" style={{ marginLeft: '260px' }}>
-                {/* Top Navbar */}
-                <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4 py-3">
-                    <div className="container-fluid">
-                        <h5 className="mb-0 text-success fw-bold">
-                            Hệ thống Quản lý Sinh viên
-                        </h5>
+            {/* Main Area */}
+            <div className="flex-1 flex flex-col">
+                {/* Top Header */}
+                <header className="h-16 bg-gray-900 border-b border-gray-800 px-8 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <h2 className="text-xl font-semibold text-white">Xin chào, Lý Tấn Tài!</h2>
+                    </div>
 
-                        <div className="d-flex align-items-center gap-3">
-                            <span className="badge bg-success">Online</span>
-                            <div className="dropdown">
-                                <button
-                                    className="btn btn-light dropdown-toggle d-flex align-items-center gap-2"
-                                    data-bs-toggle="dropdown"
-                                >
-                                    <i className="bi bi-person-circle"></i>
-                                    <span>Sinh viên</span>
-                                </button>
-                                <ul className="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <Link className="dropdown-item" to="/student/profile">
-                                            Hồ sơ cá nhân
-                                        </Link>
-                                    </li>
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li>
-                                        <Link className="dropdown-item text-danger" to="/logout">
-                                            Đăng xuất
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div className="flex items-center gap-6">
+                        <div className="bg-gray-800 text-xs px-3 py-1.5 rounded-full border border-gray-700">
+                            Lớp 11A5
+                        </div>
+                        <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-white font-semibold shadow">
+                            LT
                         </div>
                     </div>
-                </nav>
+                </header>
 
-                {/* Khu vực nội dung trang con */}
-                <div className="p-4">
-                    <Outlet />   {/* Đây là nơi render các trang con: Dashboard, Profile, Scores, Courses */}
-                </div>
+                {/* Nội dung trang */}
+                <main className="flex-1 overflow-auto bg-gray-950 p-8">
+                    <Outlet />
+                </main>
             </div>
         </div>
     );
