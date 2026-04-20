@@ -6,10 +6,12 @@ import studentApi from '../../api/studentApi';
 const EditStudent = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+
     const [student, setStudent] = useState({
         name: '',
         email: '',
-        phone: ''
+        phone: '',
+        major: ''
     });
     const [loading, setLoading] = useState(true);
 
@@ -19,6 +21,7 @@ const EditStudent = () => {
                 const response = await studentApi.getById(id);
                 setStudent(response.data);
             } catch (error) {
+                console.error(error);
                 alert("Không tìm thấy sinh viên!");
                 navigate('/admin/students');
             } finally {
@@ -36,14 +39,15 @@ const EditStudent = () => {
         e.preventDefault();
         try {
             await studentApi.update(id, student);
-            alert("Cập nhật thành công!");
+            alert("Cập nhật sinh viên thành công!");
             navigate('/admin/students');
         } catch (error) {
+            console.error(error);
             alert("Cập nhật thất bại!");
         }
     };
 
-    if (loading) return <div className="p-5">Đang tải thông tin...</div>;
+    if (loading) return <div className="p-5 text-center">Đang tải thông tin...</div>;
 
     return (
         <div className="p-4">
@@ -52,16 +56,20 @@ const EditStudent = () => {
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
-                            <label className="form-label">Họ và tên</label>
+                            <label>Họ và tên</label>
                             <input type="text" name="name" className="form-control" value={student.name} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
-                            <label className="form-label">Email</label>
+                            <label>Email</label>
                             <input type="email" name="email" className="form-control" value={student.email} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
-                            <label className="form-label">Số điện thoại</label>
+                            <label>SĐT</label>
                             <input type="text" name="phone" className="form-control" value={student.phone} onChange={handleChange} />
+                        </div>
+                        <div className="mb-3">
+                            <label>Chuyên ngành</label>
+                            <input type="text" name="major" className="form-control" value={student.major} onChange={handleChange} />
                         </div>
 
                         <div className="d-flex gap-2">

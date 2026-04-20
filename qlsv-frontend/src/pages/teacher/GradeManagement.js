@@ -8,7 +8,6 @@ const GradeManagement = () => {
     const [grades, setGrades] = useState({});
     const [loading, setLoading] = useState(false);
 
-    // Danh sách lớp mẫu (sau này sẽ lấy từ API)
     const classes = [
         { id: 1, name: "Lập trình Java - Lớp 1" },
         { id: 2, name: "Cơ sở dữ liệu - Lớp 2" },
@@ -24,7 +23,7 @@ const GradeManagement = () => {
     const loadStudentsByClass = async (classId) => {
         setLoading(true);
         try {
-            // Giả lập dữ liệu - sau thay bằng API thật
+            // Giả lập dữ liệu (sau này thay bằng API thật)
             const mockStudents = [
                 { id: 101, name: "Nguyễn Thị Lan", email: "lan@gmail.com", currentScore: 7.5 },
                 { id: 102, name: "Trần Văn Hải", email: "hai@gmail.com", currentScore: 8.0 },
@@ -33,7 +32,6 @@ const GradeManagement = () => {
             ];
             setStudents(mockStudents);
 
-            // Khởi tạo điểm hiện tại
             const initialGrades = {};
             mockStudents.forEach(student => {
                 initialGrades[student.id] = student.currentScore || '';
@@ -47,27 +45,25 @@ const GradeManagement = () => {
     };
 
     const handleScoreChange = (studentId, value) => {
-        setGrades(prev => ({
-            ...prev,
-            [studentId]: value
-        }));
+        setGrades(prev => ({ ...prev, [studentId]: value }));
     };
 
     const handleSaveAll = async () => {
         try {
-            // Gọi API lưu điểm hàng loạt
             // await axiosClient.post('/scores/batch', { classId: selectedClass, grades });
             alert("✅ Lưu điểm thành công cho tất cả sinh viên!");
         } catch (error) {
-            alert("Lưu điểm thất bại!");
+            alert("❌ Lưu điểm thất bại!");
         }
     };
 
     return (
-        <div className="p-4">
-            <h2>✍️ Nhập / Quản lý Điểm Sinh viên</h2>
+        <div style={{ padding: "30px", background: "#f5f7fa", minHeight: "100vh" }}>
+            <h2 style={{ fontWeight: "bold", marginBottom: "30px", color: "#333" }}>
+                ✍️ Nhập / Quản lý Điểm Sinh viên
+            </h2>
 
-            <div className="card shadow mt-4">
+            <div className="card shadow" style={{ borderRadius: "12px" }}>
                 <div className="card-body">
                     <div className="mb-4">
                         <label className="form-label fw-bold">Chọn Lớp học</label>
@@ -75,6 +71,7 @@ const GradeManagement = () => {
                             className="form-select"
                             value={selectedClass}
                             onChange={(e) => setSelectedClass(e.target.value)}
+                            style={{ borderRadius: "8px" }}
                         >
                             <option value="">-- Chọn lớp --</option>
                             {classes.map(cls => (
@@ -85,9 +82,9 @@ const GradeManagement = () => {
 
                     {selectedClass && (
                         <>
-                            <h5>Danh sách sinh viên - Nhập điểm</h5>
+                            <h5 className="mb-3">Danh sách sinh viên - Nhập điểm</h5>
                             {loading ? (
-                                <p>Đang tải danh sách sinh viên...</p>
+                                <p>Đang tải danh sách...</p>
                             ) : (
                                 <div className="table-responsive">
                                     <table className="table table-bordered table-hover">

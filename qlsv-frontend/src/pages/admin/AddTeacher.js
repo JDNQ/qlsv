@@ -1,15 +1,14 @@
 // src/pages/admin/AddTeacher.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import teacherApi from '../../api/teacherApi';   // Uncomment khi bạn tạo file này
+import teacherApi from '../../api/teacherApi';
 
 const AddTeacher = () => {
     const navigate = useNavigate();
     const [teacher, setTeacher] = useState({
         name: '',
         email: '',
-        phone: '',
-        department: ''   // Khoa / Bộ môn (nếu có)
+        phone: ''
     });
     const [loading, setLoading] = useState(false);
 
@@ -22,22 +21,9 @@ const AddTeacher = () => {
         setLoading(true);
 
         try {
-            // 👉 lưu localStorage
-            const oldData = JSON.parse(localStorage.getItem("teachers")) || [];
-
-            const newTeacher = {
-                id: Date.now(),
-                ...teacher
-            };
-
-            localStorage.setItem(
-                "teachers",
-                JSON.stringify([...oldData, newTeacher])
-            );
-
+            await teacherApi.create(teacher);
             alert("Thêm giáo viên thành công!");
             navigate('/admin/teachers');
-
         } catch (error) {
             console.error(error);
             alert("Thêm giáo viên thất bại!");
@@ -83,17 +69,6 @@ const AddTeacher = () => {
                                 name="phone"
                                 className="form-control"
                                 value={teacher.phone}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        <div className="mb-3">
-                            <label className="form-label">Khoa / Bộ môn</label>
-                            <input
-                                type="text"
-                                name="department"
-                                className="form-control"
-                                value={teacher.department}
                                 onChange={handleChange}
                             />
                         </div>

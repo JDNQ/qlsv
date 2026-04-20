@@ -24,13 +24,12 @@ const StudentDashboard = () => {
                 setRecentScores(scoresRes.data.slice(0, 5));
                 setTotalCourses(coursesRes.data.length || 0);
 
-                // Tính điểm trung bình
                 if (scoresRes.data.length > 0) {
                     const avg = scoresRes.data.reduce((sum, s) => sum + (parseFloat(s.score) || 0), 0) / scoresRes.data.length;
                     setAverageScore(avg.toFixed(1));
                 }
             } catch (error) {
-                console.error("Lỗi tải dashboard sinh viên:", error);
+                console.error(error);
             } finally {
                 setLoading(false);
             }
@@ -39,58 +38,95 @@ const StudentDashboard = () => {
         fetchDashboard();
     }, []);
 
-    if (loading) return <div className="p-5 text-center fs-4">Đang tải thông tin...</div>;
+    if (loading) {
+        return <div className="text-center mt-10">Đang tải thông tin...</div>;
+    }
 
     return (
-        <div className="p-4">
-            <h2 className="mb-4">Xin chào, {student?.name || 'Sinh viên'} 👋</h2>
+        <div style={{ padding: "30px", background: "#f5f7fa", minHeight: "100vh" }}>
+            <h2 style={{ fontWeight: "bold", marginBottom: "30px", color: "#333" }}>
+                Xin chào, {student?.name || 'Sinh viên'} 👋
+            </h2>
 
-            <div className="row g-4">
-                <div className="col-md-3">
-                    <div className="card bg-primary text-white shadow h-100">
-                        <div className="card-body text-center">
-                            <h5>Điểm trung bình</h5>
-                            <h1 className="display-4 fw-bold">{averageScore}</h1>
-                        </div>
-                    </div>
+            <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "20px"
+            }}>
+                {/* Card 1: Điểm trung bình */}
+                <div style={{
+                    background: "#fff",
+                    borderRadius: "12px",
+                    padding: "25px",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                    transition: "0.3s"
+                }}
+                     onMouseEnter={e => e.currentTarget.style.transform = "translateY(-5px)"}
+                     onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}>
+                    <div style={{ fontSize: "40px", marginBottom: "10px" }}>📊</div>
+                    <h4 style={{ margin: 0, fontWeight: "bold", color: "#0d6efd" }}>
+                        Điểm trung bình
+                    </h4>
+                    <h1 style={{ fontSize: "48px", fontWeight: "bold", margin: "15px 0 5px" }}>
+                        {averageScore}
+                    </h1>
+                    <p style={{ color: "#666" }}>/ 10.0</p>
                 </div>
 
-                <div className="col-md-3">
-                    <div className="card bg-success text-white shadow h-100">
-                        <div className="card-body text-center">
-                            <h5>Số môn học</h5>
-                            <h1 className="display-4 fw-bold">{totalCourses}</h1>
-                        </div>
-                    </div>
+                {/* Card 2: Số môn học */}
+                <div style={{
+                    background: "#fff",
+                    borderRadius: "12px",
+                    padding: "25px",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                    transition: "0.3s"
+                }}
+                     onMouseEnter={e => e.currentTarget.style.transform = "translateY(-5px)"}
+                     onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}>
+                    <div style={{ fontSize: "40px", marginBottom: "10px" }}>📚</div>
+                    <h4 style={{ margin: 0, fontWeight: "bold", color: "#198754" }}>
+                        Số môn học
+                    </h4>
+                    <h1 style={{ fontSize: "48px", fontWeight: "bold", margin: "15px 0" }}>
+                        {totalCourses}
+                    </h1>
+                    <p style={{ color: "#666" }}>đã đăng ký</p>
                 </div>
 
-                <div className="col-md-6">
-                    <div className="card shadow h-100">
-                        <div className="card-header bg-info text-white">
-                            <h5>Điểm số gần đây</h5>
-                        </div>
-                        <div className="card-body">
-                            {recentScores.length > 0 ? (
-                                recentScores.map((item, index) => (
-                                    <div key={index} className="d-flex justify-content-between py-2 border-bottom last:border-0">
-                                        <span>{item.courseName || 'Môn học'}</span>
-                                        <strong className={item.score >= 5 ? "text-success" : "text-danger"}>
-                                            {item.score}
-                                        </strong>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="text-muted text-center py-3">Chưa có điểm số nào</p>
-                            )}
-                        </div>
+                {/* Card 3: Điểm gần đây */}
+                <div style={{
+                    background: "#fff",
+                    borderRadius: "12px",
+                    padding: "25px",
+                    boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                    transition: "0.3s"
+                }}
+                     onMouseEnter={e => e.currentTarget.style.transform = "translateY(-5px)"}
+                     onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}>
+                    <div style={{ fontSize: "40px", marginBottom: "10px" }}>📝</div>
+                    <h4 style={{ margin: 0, fontWeight: "bold", color: "#dc3545" }}>
+                        Điểm gần đây
+                    </h4>
+                    <div style={{ marginTop: "15px" }}>
+                        {recentScores.length > 0 ? (
+                            recentScores.map((item, idx) => (
+                                <div key={idx} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: idx !== recentScores.length - 1 ? "1px solid #eee" : "none" }}>
+                                    <span>{item.courseName}</span>
+                                    <strong style={{ color: item.score >= 5 ? "#198754" : "#dc3545" }}>
+                                        {item.score}
+                                    </strong>
+                                </div>
+                            ))
+                        ) : (
+                            <p style={{ color: "#666", fontStyle: "italic" }}>Chưa có điểm số nào</p>
+                        )}
                     </div>
                 </div>
             </div>
 
-            <div className="mt-5">
-                <a href="/student/profile" className="btn btn-outline-primary me-3">👤 Hồ sơ cá nhân</a>
-                <a href="/student/scores" className="btn btn-outline-success me-3">📊 Bảng điểm chi tiết</a>
-                <a href="/student/courses" className="btn btn-outline-info">📚 Môn học của tôi</a>
+            <div style={{ marginTop: "40px" }}>
+                <a href="/student/profile" className="btn btn-primary me-3">👤 Xem hồ sơ cá nhân</a>
+                <a href="/student/scores" className="btn btn-success">📊 Xem bảng điểm đầy đủ</a>
             </div>
         </div>
     );

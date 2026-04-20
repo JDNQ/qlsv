@@ -21,31 +21,35 @@ const MyCourses = () => {
         fetchCourses();
     }, []);
 
-    if (loading) return <div className="p-5 text-center">Đang tải môn học...</div>;
+    if (loading) {
+        return <div className="text-center mt-10">Đang tải môn học...</div>;
+    }
 
     return (
-        <div className="p-4">
-            <h2>📚 Môn học của tôi</h2>
+        <div style={{ padding: "30px", background: "#f5f7fa", minHeight: "100vh" }}>
+            <h2 style={{ fontWeight: "bold", marginBottom: "30px", color: "#333" }}>
+                📚 Môn học của tôi
+            </h2>
 
-            <div className="row g-4 mt-3">
-                {courses.length === 0 ? (
-                    <div className="col-12">
-                        <div className="alert alert-info">Bạn chưa đăng ký môn học nào.</div>
-                    </div>
-                ) : (
-                    courses.map((course, index) => (
+            {courses.length === 0 ? (
+                <div className="alert alert-info">
+                    Bạn chưa đăng ký môn học nào trong kỳ này.
+                </div>
+            ) : (
+                <div className="row g-4">
+                    {courses.map((course, index) => (
                         <div key={index} className="col-md-6 col-lg-4">
-                            <div className="card shadow h-100">
+                            <div className="card shadow h-100" style={{ borderRadius: "12px" }}>
                                 <div className="card-body">
-                                    <h5>{course.courseName}</h5>
-                                    <p className="text-muted">Giảng viên: {course.teacherName}</p>
-                                    <p><strong>Kỳ học:</strong> {course.semester}</p>
+                                    <h5 className="card-title">{course.courseName}</h5>
+                                    <p className="text-muted">Giảng viên: <strong>{course.teacherName}</strong></p>
+                                    <p><strong>Kỳ học:</strong> {course.semester || "2026 Spring"}</p>
                                 </div>
                             </div>
                         </div>
-                    ))
-                )}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

@@ -1,7 +1,7 @@
 // src/pages/admin/EditTeacher.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// import teacherApi from '../../api/teacherApi';
+import teacherApi from '../../api/teacherApi';
 
 const EditTeacher = () => {
     const { id } = useParams();
@@ -10,23 +10,25 @@ const EditTeacher = () => {
     const [teacher, setTeacher] = useState({
         name: '',
         email: '',
-        phone: '',
-        department: ''
+        phone: ''
     });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Tạm thời dùng dữ liệu giả (sau thay bằng API)
-        setTimeout(() => {
-            setTeacher({
-                name: "Nguyễn Văn A",
-                email: "nguyenvana@gmail.com",
-                phone: "0912345678",
-                department: "Công nghệ thông tin"
-            });
-            setLoading(false);
-        }, 600);
-    }, [id]);
+        const fetchTeacher = async () => {
+            try {
+                const response = await teacherApi.getById(id);
+                setTeacher(response.data);
+            } catch (error) {
+                console.error(error);
+                alert("Không tìm thấy giáo viên!");
+                navigate('/admin/teachers');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTeacher();
+    }, [id, navigate]);
 
     const handleChange = (e) => {
         setTeacher({ ...teacher, [e.target.name]: e.target.value });
@@ -35,24 +37,25 @@ const EditTeacher = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // await teacherApi.update(id, teacher);
-            alert("Cập nhật thông tin giáo viên thành công!");
+            await teacherApi.update(id, teacher);
+            alert("Cập nhật giáo viên thành công!");
             navigate('/admin/teachers');
         } catch (error) {
+            console.error(error);
             alert("Cập nhật thất bại!");
         }
     };
 
-    if (loading) return <div className="p-5 text-center">Đang tải thông tin giáo viên...</div>;
+    if (loading) return <div className="p-5 text-center">Đang tải thông tin...</div>;
 
     return (
         <div className="p-4">
-            <h2>👩‍🏫 Sửa thông tin Giáo viên</h2>
+            <h2>Sửa thông tin Giáo viên</h2>
             <div className="card shadow mt-4">
                 <div className="card-body">
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
-                            <label className="form-label">Họ và tên</label>
+                            <label>Họ và tên</label>
                             <input
                                 type="text"
                                 name="name"
@@ -64,7 +67,7 @@ const EditTeacher = () => {
                         </div>
 
                         <div className="mb-3">
-                            <label className="form-label">Email</label>
+                            <label>Email</label>
                             <input
                                 type="email"
                                 name="email"
@@ -76,23 +79,12 @@ const EditTeacher = () => {
                         </div>
 
                         <div className="mb-3">
-                            <label className="form-label">Số điện thoại</label>
+                            <label>Số điện thoại</label>
                             <input
                                 type="text"
                                 name="phone"
                                 className="form-control"
                                 value={teacher.phone}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        <div className="mb-3">
-                            <label className="form-label">Khoa / Bộ môn</label>
-                            <input
-                                type="text"
-                                name="department"
-                                className="form-control"
-                                value={teacher.department}
                                 onChange={handleChange}
                             />
                         </div>

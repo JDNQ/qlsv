@@ -10,11 +10,14 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        // 👉 Fake tài khoản
         const accounts = [
-            { username: "admin", password: "123456", role: "admin" },
-            { username: "teacher", password: "123456", role: "teacher" },
-            { username: "student", password: "123456", role: "student" },
+            { username: "admin", password: "123456", role: "ADMIN" },
+
+            { username: "teacher1", password: "123456", role: "TEACHER" },
+            { username: "teacher2", password: "123456", role: "TEACHER" },
+
+            { username: "student1", password: "123456", role: "STUDENT" },
+            { username: "student2", password: "123456", role: "STUDENT" },
         ];
 
         const user = accounts.find(
@@ -27,11 +30,17 @@ const Login = () => {
             return;
         }
 
-        // 🔥 QUAN TRỌNG: lưu vào localStorage
+        // ✅ lưu login
         localStorage.setItem("user", JSON.stringify(user));
 
-        // 👉 chuyển trang
-        navigate("/admin");
+        // ✅ điều hướng đúng
+        if (user.role === "ADMIN") {
+            navigate("/admin");
+        } else if (user.role === "TEACHER") {
+            navigate("/teacher");
+        } else if (user.role === "STUDENT") {
+            navigate("/student");
+        }
     };
 
     return (

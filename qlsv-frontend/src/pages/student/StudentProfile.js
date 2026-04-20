@@ -4,11 +4,7 @@ import axiosClient from '../../services/axiosClient';
 
 const StudentProfile = () => {
     const [profile, setProfile] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        dateOfBirth: ''
+        name: '', email: '', phone: '', address: '', dateOfBirth: ''
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -28,9 +24,7 @@ const StudentProfile = () => {
         fetchProfile();
     }, []);
 
-    const handleChange = (e) => {
-        setProfile({ ...profile, [e.target.name]: e.target.value });
-    };
+    const handleChange = (e) => setProfile({ ...profile, [e.target.name]: e.target.value });
 
     const handleSave = async () => {
         setSaving(true);
@@ -39,37 +33,40 @@ const StudentProfile = () => {
             await axiosClient.put(`/students/${studentId}`, profile);
             alert("✅ Cập nhật thông tin thành công!");
         } catch (error) {
-            alert("Cập nhật thất bại!");
+            alert("❌ Cập nhật thất bại!");
         } finally {
             setSaving(false);
         }
     };
 
-    if (loading) return <div className="p-5 text-center">Đang tải hồ sơ...</div>;
+    if (loading) return <div className="text-center mt-10">Đang tải hồ sơ...</div>;
 
     return (
-        <div className="p-4">
-            <h2>👤 Hồ sơ cá nhân</h2>
-            <div className="card shadow mt-4">
+        <div style={{ padding: "30px", background: "#f5f7fa", minHeight: "100vh" }}>
+            <h2 style={{ fontWeight: "bold", marginBottom: "30px", color: "#333" }}>
+                👤 Hồ sơ cá nhân
+            </h2>
+
+            <div className="card shadow" style={{ borderRadius: "12px" }}>
                 <div className="card-body">
-                    <div className="row">
-                        <div className="col-md-6 mb-3">
+                    <div className="row g-4">
+                        <div className="col-md-6">
                             <label className="form-label">Họ và tên</label>
                             <input type="text" name="name" className="form-control" value={profile.name} onChange={handleChange} />
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6">
                             <label className="form-label">Email</label>
                             <input type="email" name="email" className="form-control" value={profile.email} onChange={handleChange} />
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6">
                             <label className="form-label">Số điện thoại</label>
                             <input type="text" name="phone" className="form-control" value={profile.phone} onChange={handleChange} />
                         </div>
-                        <div className="col-md-6 mb-3">
+                        <div className="col-md-6">
                             <label className="form-label">Ngày sinh</label>
                             <input type="date" name="dateOfBirth" className="form-control" value={profile.dateOfBirth} onChange={handleChange} />
                         </div>
-                        <div className="col-12 mb-3">
+                        <div className="col-12">
                             <label className="form-label">Địa chỉ</label>
                             <input type="text" name="address" className="form-control" value={profile.address} onChange={handleChange} />
                         </div>
@@ -77,7 +74,7 @@ const StudentProfile = () => {
 
                     <button
                         onClick={handleSave}
-                        className="btn btn-success mt-3"
+                        className="btn btn-success mt-4 px-5"
                         disabled={saving}
                     >
                         {saving ? "Đang lưu..." : "Lưu thay đổi"}

@@ -9,21 +9,23 @@ const TeacherClasses = () => {
     ];
 
     return (
-        <div className="p-4">
-            <h2>📋 Lớp học của tôi</h2>
+        <div style={{ padding: "30px", background: "#f5f7fa", minHeight: "100vh" }}>
+            <h2 style={{ fontWeight: "bold", marginBottom: "30px", color: "#333" }}>
+                📋 Lớp học của tôi
+            </h2>
 
-            <div className="row g-4 mt-3">
+            <div className="row g-4">
                 {classes.map(cls => (
                     <div key={cls.id} className="col-md-6 col-lg-4">
-                        <div className="card shadow h-100">
+                        <div className="card shadow h-100" style={{ borderRadius: "12px" }}>
                             <div className="card-body">
                                 <h5 className="card-title">{cls.name}</h5>
-                                <p className="text-muted">Kỳ học: {cls.semester}</p>
+                                <p className="text-muted">Kỳ học: <strong>{cls.semester}</strong></p>
                                 <p><strong>Số sinh viên:</strong> {cls.students} người</p>
                             </div>
-                            <div className="card-footer bg-light">
-                                <button className="btn btn-primary me-2">Xem danh sách SV</button>
-                                <button className="btn btn-success">Nhập điểm</button>
+                            <div className="card-footer bg-light d-flex gap-2" style={{ borderRadius: "0 0 12px 12px" }}>
+                                <button className="btn btn-primary flex-fill">Xem danh sách SV</button>
+                                <button className="btn btn-success flex-fill">Nhập điểm</button>
                             </div>
                         </div>
                     </div>

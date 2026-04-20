@@ -21,41 +21,57 @@ const MyScores = () => {
         fetchScores();
     }, []);
 
-    if (loading) return <div className="p-5 text-center">Đang tải bảng điểm...</div>;
+    if (loading) {
+        return <div className="text-center mt-10">Đang tải bảng điểm...</div>;
+    }
 
     return (
-        <div className="p-4">
-            <h2>📊 Bảng điểm của tôi</h2>
+        <div style={{ padding: "30px", background: "#f5f7fa", minHeight: "100vh" }}>
+            <h2 style={{ fontWeight: "bold", marginBottom: "30px", color: "#333" }}>
+                📊 Bảng điểm của tôi
+            </h2>
 
-            <div className="table-responsive mt-4">
-                <table className="table table-striped table-hover">
-                    <thead className="table-dark">
-                    <tr>
-                        <th>Môn học</th>
-                        <th>Giảng viên</th>
-                        <th>Điểm</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {scores.length === 0 ? (
-                        <tr><td colSpan="4" className="text-center py-4">Chưa có điểm số nào</td></tr>
-                    ) : (
-                        scores.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.courseName}</td>
-                                <td>{item.teacherName}</td>
-                                <td><strong className={item.score >= 5 ? "text-success" : "text-danger"}>{item.score}</strong></td>
-                                <td>
-                                        <span className={`badge ${item.score >= 5 ? "bg-success" : "bg-danger"}`}>
-                                            {item.score >= 5 ? "Đạt" : "Chưa đạt"}
-                                        </span>
-                                </td>
+            <div className="card shadow" style={{ borderRadius: "12px" }}>
+                <div className="card-body p-0">
+                    <div className="table-responsive">
+                        <table className="table table-hover mb-0">
+                            <thead className="table-dark">
+                            <tr>
+                                <th>Môn học</th>
+                                <th>Giảng viên</th>
+                                <th className="text-center">Điểm</th>
+                                <th className="text-center">Trạng thái</th>
                             </tr>
-                        ))
-                    )}
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                            {scores.length === 0 ? (
+                                <tr>
+                                    <td colSpan="4" className="text-center py-5 text-muted">
+                                        Chưa có điểm số nào
+                                    </td>
+                                </tr>
+                            ) : (
+                                scores.map((item, index) => (
+                                    <tr key={index}>
+                                        <td>{item.courseName}</td>
+                                        <td>{item.teacherName}</td>
+                                        <td className="text-center">
+                                            <strong className={item.score >= 5 ? "text-success" : "text-danger"}>
+                                                {item.score || '—'}
+                                            </strong>
+                                        </td>
+                                        <td className="text-center">
+                                                <span className={`badge ${item.score >= 5 ? "bg-success" : "bg-danger"}`}>
+                                                    {item.score >= 5 ? "Đạt" : "Chưa đạt"}
+                                                </span>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     );

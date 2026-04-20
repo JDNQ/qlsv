@@ -1,19 +1,35 @@
-// src/components/RequireAuth.js
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const RequireAuth = ({ allowedRoles }) => {
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const rawUser = localStorage.getItem('user');
 
-    if (!token) {
+    console.log("RAW USER:", rawUser);
+
+    let user = null;
+
+    try {
+        user = JSON.parse(rawUser);
+    } catch (e) {
+        console.error("Lỗi parse user:", e);
         return <Navigate to="/login" replace />;
     }
 
-    // Nếu có kiểm tra role
+    console.log("PARSED USER:", user);
+
+    // ❌ không có user
+    if (!user || !user.role) {
+        console.log("❌ Không có role → redirect login");
+        return <Navigate to="/login" replace />;
+    }
+
+    // ❌ sai role
     if (allowedRoles && !allowedRoles.includes(user.role)) {
+        console.log("❌ Sai role:", user.role);
         return <Navigate to="/login" replace />;
     }
+
+    console.log("✅ Được phép truy cập");
 
     return <Outlet />;
 };
