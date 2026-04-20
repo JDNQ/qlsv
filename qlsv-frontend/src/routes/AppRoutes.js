@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 // ==================== LAYOUTS ====================
 import AdminLayout from '../layout/AdminLayout';
-import StudentLayout from '../pages/student/StudentLayout';     // ✅ Sửa đúng đường dẫn
+import StudentLayout from '../layout/StudentLayout';
 import TeacherLayout from '../layout/TeacherLayout';
 
 // ==================== PAGES ====================
@@ -15,6 +15,10 @@ import StudentDashboard from '../pages/student/StudentDashboard';
 import StudentProfile from '../pages/student/StudentProfile';
 import MyScores from '../pages/student/MyScores';
 import MyCourses from '../pages/student/MyCourses';
+import MyRegister from '../pages/student/MyRegister';
+import MySchedule from '../pages/student/MySchedule';
+import MyNotifications from '../pages/student/MyNotifications';
+import MyDebt from '../pages/student/MyDebt';
 
 // Admin Pages
 import AdminDashboard from '../pages/admin/AdminDashboard';
@@ -26,12 +30,15 @@ import AddTeacher from '../pages/admin/AddTeacher';
 import EditTeacher from '../pages/admin/EditTeacher';
 import CourseManagement from '../pages/admin/CourseManagement';
 import ClassManagement from '../pages/admin/ClassManagement';
+import TuitionManagement from '../pages/admin/TuitionManagement';
+import SemesterManagement from '../pages/admin/SemesterManagement';
+import EnrollmentManagement from '../pages/admin/EnrollmentManagement';
 
 // Teacher Pages
 import TeacherDashboard from '../pages/teacher/TeacherDashboard';
+import TeacherProfile from '../pages/teacher/TeacherProfile';
 import TeacherClasses from '../pages/teacher/TeacherClasses';
 import GradeManagement from '../pages/teacher/GradeManagement';
-import TeacherProfile from '../pages/teacher/TeacherProfile';
 
 // Auth Guard
 import RequireAuth from '../components/RequireAuth';
@@ -51,12 +58,10 @@ const AppRoutes = () => {
                     <Route path="profile" element={<StudentProfile />} />
                     <Route path="courses" element={<MyCourses />} />
                     <Route path="scores" element={<MyScores />} />
-
-                    {/* Các trang bổ sung (có thể để trống hoặc thêm sau) */}
-                    <Route path="register" element={<div className="p-8"><h3>Đăng ký học phần</h3><p>Chức năng đang phát triển...</p></div>} />
-                    <Route path="schedule" element={<div className="p-8"><h3>Lịch học</h3><p>Chức năng đang phát triển...</p></div>} />
-                    <Route path="notifications" element={<div className="p-8"><h3>Thông báo</h3><p>Chức năng đang phát triển...</p></div>} />
-                    <Route path="debt" element={<div className="p-8"><h3>Công nợ học phí</h3><p>Chức năng đang phát triển...</p></div>} />
+                    <Route path="register" element={<MyRegister />} />
+                    <Route path="schedule" element={<MySchedule />} />
+                    <Route path="notifications" element={<MyNotifications />} />
+                    <Route path="debt" element={<MyDebt />} />
                 </Route>
             </Route>
 
@@ -73,6 +78,9 @@ const AppRoutes = () => {
                     <Route path="teachers/edit/:id" element={<EditTeacher />} />
                     <Route path="courses" element={<CourseManagement />} />
                     <Route path="classes" element={<ClassManagement />} />
+                    <Route path="tuition" element={<TuitionManagement />} />
+                    <Route path="semesters" element={<SemesterManagement />} />
+                    <Route path="enrollments" element={<EnrollmentManagement />} />
                 </Route>
             </Route>
 
@@ -103,7 +111,7 @@ const AppRoutes = () => {
     );
 };
 
-// Logout Handler Component
+// Logout Handler
 const LogoutHandler = () => {
     React.useEffect(() => {
         localStorage.clear();

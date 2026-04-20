@@ -16,7 +16,7 @@ const AdminLayout = () => {
             {/* SIDEBAR */}
             <div
                 style={{
-                    width: "250px",
+                    width: "260px",
                     height: "100vh",
                     background: "#1e293b",
                     color: "#fff",
@@ -24,52 +24,104 @@ const AdminLayout = () => {
                     padding: "20px",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+                    overflowY: "auto"
                 }}
             >
-                {/* MENU */}
+                {/* HEADER */}
                 <div>
-                    <h4>QLSV</h4>
-                    <p style={{ fontSize: "14px", opacity: 0.7 }}>
-                        Quản trị hệ thống
-                    </p>
+                    <div style={{ textAlign: "center", marginBottom: "30px" }}>
+                        <h3 style={{ margin: 0, fontWeight: "bold" }}>QLSV</h3>
+                        <p style={{ fontSize: "14px", opacity: 0.7, margin: "5px 0 0 0" }}>
+                            Quản trị hệ thống
+                        </p>
+                    </div>
 
-                    <ul style={{ listStyle: "none", padding: 0 }}>
+                    {/* MENU */}
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                         <li>
-                            <Link to="/admin" style={linkStyle}>🏠 Dashboard</Link>
+                            <Link to="/admin/dashboard" style={linkStyle}>
+                                🏠 Dashboard
+                            </Link>
+                        </li>
+
+                        <li style={{ marginTop: "20px" }}>
+                            <p style={{ fontSize: "13px", opacity: 0.6, marginBottom: "8px", paddingLeft: "10px" }}>
+                                QUẢN LÝ NGƯỜI DÙNG
+                            </p>
                         </li>
                         <li>
-                            <Link to="/admin/students" style={linkStyle}>👨‍🎓 Sinh viên</Link>
+                            <Link to="/admin/students" style={linkStyle}>
+                                👨‍🎓 Sinh viên
+                            </Link>
                         </li>
                         <li>
-                            <Link to="/admin/teachers" style={linkStyle}>👩‍🏫 Giáo viên</Link>
+                            <Link to="/admin/teachers" style={linkStyle}>
+                                👩‍🏫 Giáo viên
+                            </Link>
+                        </li>
+
+                        <li style={{ marginTop: "20px" }}>
+                            <p style={{ fontSize: "13px", opacity: 0.6, marginBottom: "8px", paddingLeft: "10px" }}>
+                                QUẢN LÝ HỌC TẬP
+                            </p>
                         </li>
                         <li>
-                            <Link to="/admin/courses" style={linkStyle}>📚 Khóa học</Link>
+                            <Link to="/admin/courses" style={linkStyle}>
+                                📚 Khóa học / Môn học
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/admin/classes" style={linkStyle}>
+                                🏫 Lớp học
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/admin/enrollments" style={linkStyle}>
+                                📋 Đăng ký học phần
+                            </Link>
+                        </li>
+
+                        <li style={{ marginTop: "20px" }}>
+                            <p style={{ fontSize: "13px", opacity: 0.6, marginBottom: "8px", paddingLeft: "10px" }}>
+                                QUẢN LÝ HÀNH CHÍNH
+                            </p>
+                        </li>
+                        <li>
+                            <Link to="/admin/semesters" style={linkStyle}>
+                                📅 Kỳ học
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/admin/tuition" style={linkStyle}>
+                                💰 Học phí & Công nợ
+                            </Link>
                         </li>
                     </ul>
                 </div>
 
-                {/* 🔥 LOGOUT */}
+                {/* LOGOUT */}
                 <button
                     onClick={handleLogout}
                     style={{
-                        padding: "10px",
+                        padding: "12px",
                         background: "#ef4444",
                         color: "#fff",
                         border: "none",
-                        borderRadius: "6px",
-                        cursor: "pointer"
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        fontWeight: "500",
+                        marginTop: "20px"
                     }}
                 >
                     🚪 Đăng xuất
                 </button>
             </div>
 
-            {/* CONTENT */}
+            {/* CONTENT AREA */}
             <div
                 style={{
-                    marginLeft: "250px",
+                    marginLeft: "260px",
                     padding: "20px",
                     width: "100%",
                     minHeight: "100vh",
@@ -84,9 +136,18 @@ const AdminLayout = () => {
 
 const linkStyle = {
     display: "block",
-    padding: "10px",
-    color: "#fff",
+    padding: "12px 15px",
+    color: "#e2e8f0",
     textDecoration: "none",
+    borderRadius: "6px",
+    marginBottom: "4px",
+    transition: "all 0.2s",
+};
+
+linkStyle[':hover'] = {
+    background: "#334155",
+    color: "#fff",
+    paddingLeft: "20px"
 };
 
 export default AdminLayout;

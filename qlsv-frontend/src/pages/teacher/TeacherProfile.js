@@ -13,16 +13,25 @@ const TeacherProfile = () => {
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        // Tạm thời dùng dữ liệu giả (sau này thay bằng API thật)
-        setTimeout(() => {
-            setTeacher({
-                name: "Nguyễn Văn A",
-                email: "nguyenvana@school.edu.vn",
-                phone: "0912345678",
-                department: "Công nghệ Thông tin"
-            });
-            setLoading(false);
-        }, 800);
+        const fetchTeacher = async () => {
+            try {
+                const teacherId = localStorage.getItem('teacherId') || 1;
+                const res = await axiosClient.get(`/teachers/${teacherId}`);
+                setTeacher(res.data);
+            } catch (error) {
+                console.error("Lỗi tải thông tin giảng viên:", error);
+                // Fallback mock data
+                setTeacher({
+                    name: "Nguyễn Văn A",
+                    email: "nguyenvana@school.edu.vn",
+                    phone: "0912345678",
+                    department: "Công nghệ Thông tin"
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTeacher();
     }, []);
 
     const handleChange = (e) => {
@@ -32,9 +41,11 @@ const TeacherProfile = () => {
     const handleSave = async () => {
         setSaving(true);
         try {
-            // await axiosClient.put('/teachers/profile', teacher);
+            const teacherId = localStorage.getItem('teacherId') || 1;
+            await axiosClient.put(`/teachers/${teacherId}`, teacher);
             alert("✅ Cập nhật thông tin thành công!");
         } catch (error) {
+            console.error(error);
             alert("❌ Cập nhật thất bại!");
         } finally {
             setSaving(false);

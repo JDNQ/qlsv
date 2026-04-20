@@ -11,9 +11,17 @@ const MyCourses = () => {
             try {
                 const studentId = localStorage.getItem('studentId') || 1;
                 const res = await axiosClient.get(`/students/${studentId}/courses`);
-                setCourses(res.data);
+                setCourses(Array.isArray(res.data) ? res.data : []);
             } catch (error) {
-                console.error(error);
+                console.error("Lỗi tải môn học:", error);
+
+                // Data giả khi backend chưa có endpoint
+                setCourses([
+                    { courseName: "Lập trình Java", teacherName: "Nguyễn Văn T1", semester: "2026 Spring", score: 8.5 },
+                    { courseName: "Cơ sở dữ liệu", teacherName: "Trần Thị T2", semester: "2026 Spring", score: 7.0 },
+                    { courseName: "Mạng máy tính", teacherName: "Lê Văn T3", semester: "2026 Spring", score: 6.5 },
+                    { courseName: "Trí tuệ nhân tạo", teacherName: "Phạm Thị T4", semester: "2026 Spring", score: null }
+                ]);
             } finally {
                 setLoading(false);
             }
@@ -42,8 +50,16 @@ const MyCourses = () => {
                             <div className="card shadow h-100" style={{ borderRadius: "12px" }}>
                                 <div className="card-body">
                                     <h5 className="card-title">{course.courseName}</h5>
-                                    <p className="text-muted">Giảng viên: <strong>{course.teacherName}</strong></p>
+                                    <p className="text-muted">Giảng viên: <strong>{course.teacherName || '—'}</strong></p>
                                     <p><strong>Kỳ học:</strong> {course.semester || "2026 Spring"}</p>
+                                    {course.score !== null && course.score !== undefined && (
+                                        <p>
+                                            <strong>Điểm hiện tại: </strong>
+                                            <span className={course.score >= 5 ? "text-success fw-bold" : "text-danger fw-bold"}>
+                                                {course.score}
+                                            </span>
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         </div>
