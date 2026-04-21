@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/teachers")   // ← Đã sửa
 @CrossOrigin(origins = "*")
 public class TeacherRestController {
 
@@ -22,17 +22,17 @@ public class TeacherRestController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/teachers/{id}")
+    // Lấy thông tin giảng viên
+    @GetMapping("/{id}")
     public ResponseEntity<Teacher> getTeacher(@PathVariable Long id) {
         Teacher teacher = teacherService.getById(id);
         return teacher != null ? ResponseEntity.ok(teacher) : ResponseEntity.notFound().build();
     }
 
-    // Danh sách sinh viên theo lớp (hiện tại dùng tất cả sinh viên làm demo)
+    // Danh sách sinh viên theo lớp (demo)
     @GetMapping("/classes/{classId}/students")
     public ResponseEntity<List<Student>> getStudentsByClass(@PathVariable Long classId) {
-        // TODO: Sau này join với teaching_classes
-        // Hiện tại trả tất cả sinh viên để frontend không lỗi
+        // TODO: Sau này sẽ join với bảng teaching_classes
         List<Student> students = studentService.getAll();
         return ResponseEntity.ok(students);
     }

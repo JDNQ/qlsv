@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")   // Cho phép React gọi
+@RequestMapping("/api/admin")          // ← ĐÃ SỬA: Thêm prefix /admin
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
 
     @Autowired
